@@ -8,6 +8,7 @@ class RandomUserListController : TypedEpoxyController<List<RandomUser>>() {
     override fun buildModels(users: List<RandomUser>?) {
         users?.forEach { user ->
             epoxyViewHolderRandomUser {
+                id("id")
                 userName(user.name.first + ' ' + user.name.last)
             }
         }
