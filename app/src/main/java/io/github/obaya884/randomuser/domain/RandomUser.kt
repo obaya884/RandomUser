@@ -1,5 +1,8 @@
 package io.github.obaya884.randomuser.domain
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class RandomUser(
     val gender: String,
     val name: UserName,
