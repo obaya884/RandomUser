@@ -9,6 +9,7 @@ class RandomUserListController : TypedEpoxyController<List<RandomUser>>() {
         users?.forEach { user ->
             epoxyViewHolderRandomUser {
                 id("id")
+                iconUrl(user.picture.thumbnail)
                 userName(user.name.first + ' ' + user.name.last)
             }
         }

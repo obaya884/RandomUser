@@ -6,14 +6,28 @@
     <data>
 
         <variable
+            name="iconUrl"
+            type="String" />
+
+        <variable
             name="userName"
             type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
+
+        <ImageView
+            android:id="@+id/image_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:icon_image="@{iconUrl}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/text_user_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_user_name"
@@ -21,9 +35,11 @@
             android:layout_height="48dp"
             android:gravity="center|start"
             android:text="@{userName}"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_icon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="UserName" />
 

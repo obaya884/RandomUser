@@ -1,6 +1,7 @@
-package io.github.obaya884.randomuser.domain
+package io.github.obaya884.randomuser.domain.usecase
 
 import io.github.obaya884.randomuser.data.RandomUserRepository
+import io.github.obaya884.randomuser.domain.RandomUser
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

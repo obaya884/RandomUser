@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.obaya884.randomuser.domain.RandomUserInteractor
-import io.github.obaya884.randomuser.domain.RandomUserUseCase
+import io.github.obaya884.randomuser.domain.usecase.RandomUserInteractor
+import io.github.obaya884.randomuser.domain.usecase.RandomUserUseCase
 
 @Module
 @InstallIn(SingletonComponent::class)

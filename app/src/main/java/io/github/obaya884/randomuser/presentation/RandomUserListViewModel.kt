@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.obaya884.randomuser.combine
 import io.github.obaya884.randomuser.domain.RandomUser
-import io.github.obaya884.randomuser.domain.RandomUserUseCase
+import io.github.obaya884.randomuser.domain.usecase.RandomUserUseCase
 import io.github.obaya884.randomuser.setLoadState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineStart

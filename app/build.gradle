@@ -98,6 +98,10 @@ dependencies {
     implementation "com.airbnb.android:epoxy:$epoxy_version"
     implementation "com.airbnb.android:epoxy-databinding:$epoxy_version"
     kapt "com.airbnb.android:epoxy-processor:$epoxy_version"
+
+    // Coil
+    def coil_version = '2.2.2'
+    implementation("io.coil-kt:coil:$coil_version")
 }
 
 // Allow references to generated code
