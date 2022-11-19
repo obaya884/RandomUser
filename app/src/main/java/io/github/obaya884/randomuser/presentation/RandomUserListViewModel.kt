@@ -46,7 +46,7 @@ class RandomUserListViewModel @Inject constructor(
             userUseCase.getRandomUsers(1, 25)
                 .setLoadState(_loadState)
                 .collect {
-                    _users.postValue(it.body())
+                    _users.postValue(it)
                 }
         }
     }

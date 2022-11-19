@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 data class RandomUser(
     val gender: String,
     val name: UserName,
-    val country: String,
+    val location: Location,
     val email: String,
     val phone: String,
     val picture: UserImage
@@ -15,6 +15,10 @@ data class RandomUser(
         val title: String,
         val first: String,
         val last: String
+    )
+
+    data class Location(
+        val country: String
     )
 
     data class UserImage(
