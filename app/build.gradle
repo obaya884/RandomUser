@@ -32,6 +32,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        dataBinding true
+    }
+    viewBinding {
+        enabled true
+    }
 }
 
 dependencies {
@@ -69,6 +75,13 @@ dependencies {
     def okhttp_version = '4.9.3'
     implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
     implementation("com.squareup.okhttp3:logging-interceptor:$okhttp_version")
+
+    /**
+     * Presentation Layer
+     */
+    def fragment_version = '1.5.4'
+    implementation("androidx.fragment:fragment:$fragment_version")
+    implementation("androidx.fragment:fragment-ktx:$fragment_version")
 
 
 
