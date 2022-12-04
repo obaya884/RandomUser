@@ -14,10 +14,20 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * - ローディング
+ * - ページネーション
+ * - エラー時の表示（リロード表示）
+ * - フィルター
+ * - 詳細画面
+ * - 状態保存（savedInstance, DataStore）
+ * - Flowに置き換え
+ */
 
-data class RandomUserListUiState(
+data class RandomUserListUiModel(
     val users: List<RandomUser>? = null,
-    val loadState: LoadState = LoadState.Initialized
+    val loadState: LoadState = LoadState.Initialized,
+    val pagination: Pagination = Pagination.createInitialPagination(pageSize = 25)
 )
 
 @HiltViewModel
@@ -25,29 +35,44 @@ class RandomUserListViewModel @Inject constructor(
     private val dispatcher: CoroutineDispatcher,
     private val userUseCase: RandomUserUseCase
 ) : ViewModel() {
-//    private val _users: MutableStateFlow<RandomUserListUiState> =
-//        MutableStateFlow(RandomUserListUiState())
-//    val uiState: StateFlow<RandomUserListUiState> = _uiState.asStateFlow()
 
     private val _users = MutableLiveData<List<RandomUser>>()
     private val _loadState = MutableLiveData<LoadState>(LoadState.Initialized)
-    val uiState: LiveData<RandomUserListUiState> by lazy {
+    private val _pagination =
+        MutableLiveData<Pagination>(Pagination.createInitialPagination(pageSize = PAGE_SIZE))
+
+    val uiModel: LiveData<RandomUserListUiModel> by lazy {
         combine(
-            RandomUserListUiState(),
+            RandomUserListUiModel(),
             _users,
-            _loadState
-        ) { _, users, loadState ->
-            RandomUserListUiState(users, loadState)
+            _loadState,
+            _pagination
+        ) { _, users, loadState, pagination ->
+            RandomUserListUiModel(users, loadState, pagination)
         }
     }
 
-    fun getUsers() {
+    fun getUsersFirstPage() {
+        _pagination.postValue(Pagination.createInitialPagination(pageSize = PAGE_SIZE))
+        getUsers(page = _pagination.value!!.page)
+    }
+
+    fun getUsersNextPage() {
+        getUsers(_pagination.value!!.nextPage)
+    }
+
+    private fun getUsers(page: Int) {
         viewModelScope.launch(context = dispatcher, start = CoroutineStart.DEFAULT) {
-            userUseCase.getRandomUsers(1, 25)
+            userUseCase.getRandomUsers(page, _pagination.value!!.pageSize)
                 .setLoadState(_loadState)
                 .collect {
-                    _users.postValue(it)
+                    val currentUsers = _users.value?.toMutableList() ?: mutableListOf()
+                    _users.postValue(currentUsers + it)
                 }
         }
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 25
     }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.airbnb.epoxy.EpoxyVisibilityTracker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.obaya884.randomuser.databinding.FragmentRandomUserListBinding
@@ -20,17 +21,13 @@ class RandomUserListFragment : Fragment() {
 
     private val viewModel: RandomUserListViewModel by viewModels()
 
-    private val controller = RandomUserListController()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.uiState.collect {
-//                }
-//            }
-//        }
-    }
+    private val controller = RandomUserListController(
+        object : RandomUserListController.Listener {
+            override fun onNextPage() {
+                viewModel.getUsersNextPage()
+            }
+        }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +46,7 @@ class RandomUserListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getUsers()
+        viewModel.getUsersFirstPage()
     }
 
     override fun onDestroyView() {
@@ -61,25 +58,26 @@ class RandomUserListFragment : Fragment() {
     private fun setupRecyclerView() {
         viewBinding.recyclerView.apply {
             adapter = controller.adapter
+            EpoxyVisibilityTracker().attach(this)
         }
     }
 
     private fun observeViewModel() {
-        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-            when (uiState.loadState) {
-                LoadState.Initialized -> {
+        viewModel.uiModel.observe(viewLifecycleOwner) { uiModel ->
+            when (uiModel.loadState) {
+                is LoadState.Initialized -> {
                 }
 
                 is LoadState.Loading -> {
                 }
 
-                LoadState.Succeeded -> {
-                    controller.setData(uiState.users)
+                is LoadState.Succeeded -> {
+                    controller.setData(uiModel)
                 }
 
                 is LoadState.Error -> Snackbar.make(
                     requireView(),
-                    uiState.loadState.throwable.message.toString(),
+                    uiModel.loadState.throwable.message.toString(),
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
