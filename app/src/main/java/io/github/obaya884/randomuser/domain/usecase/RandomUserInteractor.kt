@@ -15,7 +15,7 @@ class RandomUserInteractor @Inject constructor(
     override suspend fun getRandomUsers(
         page: Int,
         pageSize: Int
-    ): Flow<List<RandomUser>> = flow<List<RandomUser>> {
+    ): Flow<List<RandomUser>> = flow {
         val users = repository.getRandomUsers(page, pageSize).body()?.results ?: listOf()
         emit(users)
     }.flowOn(dispatcher)

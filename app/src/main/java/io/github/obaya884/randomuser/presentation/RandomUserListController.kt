@@ -6,9 +6,9 @@ import io.github.obaya884.randomuser.epoxyViewHolderRandomUser
 
 class RandomUserListController : TypedEpoxyController<List<RandomUser>>() {
     override fun buildModels(users: List<RandomUser>?) {
-        users?.forEach { user ->
+        users?.forEachIndexed { index, user ->
             epoxyViewHolderRandomUser {
-                id("id")
+                id(user.email + index.toString())
                 iconUrl(user.picture.thumbnail)
                 userName(user.name.first + ' ' + user.name.last)
             }
