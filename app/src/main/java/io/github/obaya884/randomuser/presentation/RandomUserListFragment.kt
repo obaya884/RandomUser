@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.airbnb.epoxy.EpoxyVisibilityTracker
@@ -64,6 +65,8 @@ class RandomUserListFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.uiModel.observe(viewLifecycleOwner) { uiModel ->
+            viewBinding.progressBar.isVisible = uiModel.loadState is LoadState.Loading
+
             when (uiModel.loadState) {
                 is LoadState.Initialized -> {
                 }

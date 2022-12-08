@@ -15,8 +15,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * - ローディング
- * - ページネーション
  * - エラー時の表示（リロード表示）
  * - フィルター
  * - 詳細画面
