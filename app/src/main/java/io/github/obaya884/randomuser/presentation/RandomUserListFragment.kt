@@ -43,6 +43,7 @@ class RandomUserListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         observeViewModel()
+        viewBinding.reloadButton.setOnClickListener { viewModel.getUsersFirstPage() }
     }
 
     override fun onResume() {
@@ -65,7 +66,9 @@ class RandomUserListFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.uiModel.observe(viewLifecycleOwner) { uiModel ->
-            viewBinding.progressBar.isVisible = uiModel.loadState is LoadState.Loading
+            viewBinding.progressBar.isVisible =
+                (uiModel.loadState is LoadState.Loading) || (uiModel.loadState is LoadState.Initialized)
+            viewBinding.reloadButton.isVisible = uiModel.showReloadButton
 
             when (uiModel.loadState) {
                 is LoadState.Initialized -> {

@@ -16,17 +16,11 @@ import javax.inject.Inject
 
 /**
  * - エラー時の表示（リロード表示）
+ * - Flowに置き換え
  * - フィルター
  * - 詳細画面
  * - 状態保存（savedInstance, DataStore）
- * - Flowに置き換え
  */
-
-data class RandomUserListUiModel(
-    val users: List<RandomUser>? = null,
-    val loadState: LoadState = LoadState.Initialized,
-    val pagination: Pagination = Pagination.createInitialPagination(pageSize = 25)
-)
 
 @HiltViewModel
 class RandomUserListViewModel @Inject constructor(
@@ -73,4 +67,12 @@ class RandomUserListViewModel @Inject constructor(
     companion object {
         private const val PAGE_SIZE = 25
     }
+}
+
+data class RandomUserListUiModel(
+    val users: List<RandomUser>? = null,
+    val loadState: LoadState = LoadState.Initialized,
+    val pagination: Pagination = Pagination.createInitialPagination(pageSize = 25)
+) {
+    val showReloadButton = users.isNullOrEmpty() && loadState is LoadState.Error
 }

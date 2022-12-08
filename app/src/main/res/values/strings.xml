@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RandomUser</string>
+    <string name="text_button_reload">Reload</string>
 </resources>
